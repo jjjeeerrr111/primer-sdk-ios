@@ -24,7 +24,7 @@ public final class PrimerCardNumberFieldView: PrimerTextFieldView {
         textField.accessibilityIdentifier = "card_txt_fld"
         textField.delegate = self
         isValid = { text in
-            return text.isValidCardNumber
+            return Validator.validate(cardNumber: text)
         }
     }
     

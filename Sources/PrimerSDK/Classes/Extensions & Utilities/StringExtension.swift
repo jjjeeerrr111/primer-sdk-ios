@@ -48,19 +48,6 @@ internal extension String {
         let set = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ")
         return !(self.rangeOfCharacter(from: set.inverted) != nil)
     }
-
-    var isValidCardNumber: Bool {
-        let clearedCardNumber = self.withoutNonNumericCharacters
-        
-        let cardNetwork = CardNetwork(cardNumber: clearedCardNumber)
-        if let cardNumberValidation = cardNetwork.validation {
-            if !cardNumberValidation.lengths.contains(clearedCardNumber.count) {
-                return false
-            }
-        }
-        
-        return clearedCardNumber.count >= 13 && clearedCardNumber.count <= 19 && clearedCardNumber.isValidLuhn
-    }
     
     var withoutNonNumericCharacters: String {
         return withoutWhiteSpace.filter("0123456789".contains)
@@ -101,22 +88,6 @@ internal extension String {
         return date.endOfMonth > Date()
     }
     
-    var isValidExpiryDate: Bool {
-        // swiftlint:disable identifier_name
-        let _self = self.replacingOccurrences(of: "/", with: "")
-        // swiftlint:enable identifier_name
-        if _self.count != 4 {
-            return false
-        }
-        
-        if !_self.isNumeric {
-            return false
-        }
-        
-        guard let date = _self.toDate(withFormat: "MMyy") else { return false }
-        return date.endOfMonth > Date()
-    }
-    
     func isTypingValidCVV(cardNetwork: CardNetwork?) -> Bool? {
         let maxDigits = cardNetwork?.validation?.code.length ?? 4
         if !isNumeric && !isEmpty { return false }
@@ -125,23 +96,9 @@ internal extension String {
         return nil
     }
     
-    func isValidCVV(cardNetwork: CardNetwork?) -> Bool {
-        if let numberOfDigits = cardNetwork?.validation?.code.length {
-            return count == numberOfDigits
-        }
-        
-        return count > 2 && count < 5
-    }
-    
     var isTypingValidCardholderName: Bool? {
-        if isValidCardholderName { return true }
+        if Validator.validate(cardholderName: self) { return true }
         return nil
-    }
-    
-    var isValidCardholderName: Bool {
-        if isEmpty { return false }
-        let set = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLKMNOPQRSTUVWXYZ '`~.-")
-        return !(self.rangeOfCharacter(from: set.inverted) != nil)
     }
 
     var isValidEmail: Bool {
@@ -233,36 +190,6 @@ internal extension String {
         }
         
         return str
-    }
-    
-    /**
-     Validates if string is a valid IBAN. Follows the principles for IBAN validation found https://en.wikipedia.org/wiki/International_Bank_Account_Number#Validating_the_IBAN
-     
-     - Important:
-     It will only take alphanumeric characters into account.
-     */
-    var isValidIBAN: Bool {
-        let tmpIBAN = self.keepOnlyCharacters(in: CharacterSet.alphanumerics)
-        return tmpIBAN.isValidIBANChecksum
-    }
-    
-    private var isValidIBANChecksum: Bool {
-        guard self.count >= 4 else { return false }
-        
-        let uppercase = self.uppercased()
-        
-        // Interpret the string as a decimal integer and compute the remainder of that number on division by 97
-        let symbols: [Character] = Array(uppercase)
-        let swapped = symbols.dropFirst(IBAN.controlNumberStart + IBAN.controlNumberLength) + symbols.prefix(IBAN.controlNumberEnd)
-        
-        let mod: Int = swapped.reduce(0) { (previousMod, char) in
-            // Replace each letter in the string with two digits, thereby expanding the string, where A = 10, B = 11, ..., Z = 35
-            let value = Int(String(char), radix: 36)! // "0" => 0, "A" => 10, "Z" => 35
-            let factor = value < 10 ? 10 : 100
-            return (factor * previousMod + value) % IBAN.modulo
-        }
-        
-        return mod == 1
     }
     
 }

@@ -22,7 +22,7 @@ public final class PrimerExpiryDateFieldView: PrimerTextFieldView {
         textField.accessibilityIdentifier = "expiry_txt_fld"
         textField.delegate = self
         isValid = { text in
-            let isValid = text.isValidExpiryDate
+            let isValid = Validator.validate(expiryDate: text)
             return isValid
         }
     }
@@ -62,7 +62,7 @@ public final class PrimerExpiryDateFieldView: PrimerTextFieldView {
         primerTextField._text = newText
         primerTextField.text = newText
         
-        if newText.isValidExpiryDate {
+        if Validator.validate(expiryDate: newText) {
             expiryMonth = String(newText.prefix(2))
             expiryYear = String(newText.suffix(2))
         } else {

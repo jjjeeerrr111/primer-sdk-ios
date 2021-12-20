@@ -87,57 +87,57 @@ class StringTests: XCTestCase {
 
     func test_is_valid_iban() throws {
         var validIban = "NL10INGB6686956546"
-        XCTAssert(validIban.isValidIBAN, "'\(validIban)' should be valid")
+        XCTAssert(Validator.validate(iban: validIban), "'\(validIban)' should be valid")
 
         validIban = "GB97BARC20038467693594"
-        XCTAssert(validIban.isValidIBAN, "'\(validIban)' should be valid")
+        XCTAssert(Validator.validate(iban: validIban), "'\(validIban)' should be valid")
 
         validIban = "FR2530003000401478933878E80"
-        XCTAssert(validIban.isValidIBAN, "'\(validIban)' should be valid")
+        XCTAssert(Validator.validate(iban: validIban), "'\(validIban)' should be valid")
 
         validIban = "DE70500105174453316465"
-        XCTAssert(validIban.isValidIBAN, "'\(validIban)' should be valid")
+        XCTAssert(Validator.validate(iban: validIban), "'\(validIban)' should be valid")
 
         validIban = "EE371212446149126837"
-        XCTAssert(validIban.isValidIBAN, "'\(validIban)' should be valid")
+        XCTAssert(Validator.validate(iban: validIban), "'\(validIban)' should be valid")
 
         validIban = "FI8088315212931538"
-        XCTAssert(validIban.isValidIBAN, "'\(validIban)' should be valid")
+        XCTAssert(Validator.validate(iban: validIban), "'\(validIban)' should be valid")
 
         validIban = "SE9126778385485249588712"
-        XCTAssert(validIban.isValidIBAN, "'\(validIban)' should be valid")
+        XCTAssert(Validator.validate(iban: validIban), "'\(validIban)' should be valid")
 
         validIban = "ES4531905521837434874245"
-        XCTAssert(validIban.isValidIBAN, "'\(validIban)' should be valid")
+        XCTAssert(Validator.validate(iban: validIban), "'\(validIban)' should be valid")
 
         validIban = "BA021028997791294137"
-        XCTAssert(validIban.isValidIBAN, "'\(validIban)' should be valid")
+        XCTAssert(Validator.validate(iban: validIban), "'\(validIban)' should be valid")
         
         var invalidIban = "NL10INGB6686956547"
-        XCTAssert(!invalidIban.isValidIBAN, "'\(invalidIban)' should not be valid")
+        XCTAssert(!Validator.validate(iban: invalidIban), "'\(invalidIban)' should not be valid")
         
         invalidIban = "GB97BARC20038467693595"
-        XCTAssert(!invalidIban.isValidIBAN, "'\(invalidIban)' should not be valid")
+        XCTAssert(!Validator.validate(iban: invalidIban), "'\(invalidIban)' should not be valid")
         
         invalidIban = "FR2530003000401478933878E81"
-        XCTAssert(!invalidIban.isValidIBAN, "'\(invalidIban)' should not be valid")
+        XCTAssert(!Validator.validate(iban: invalidIban), "'\(invalidIban)' should not be valid")
         
         invalidIban = "DE70500105174453316466"
-        XCTAssert(!invalidIban.isValidIBAN, "'\(invalidIban)' should not be valid")
+        XCTAssert(!Validator.validate(iban: invalidIban), "'\(invalidIban)' should not be valid")
         
         invalidIban = "EE371212446149126838"
-        XCTAssert(!invalidIban.isValidIBAN, "'\(invalidIban)' should not be valid")
+        XCTAssert(!Validator.validate(iban: invalidIban), "'\(invalidIban)' should not be valid")
         
         invalidIban = "FI8088315212931539"
-        XCTAssert(!invalidIban.isValidIBAN, "'\(invalidIban)' should not be valid")
+        XCTAssert(!Validator.validate(iban: invalidIban), "'\(invalidIban)' should not be valid")
         
         invalidIban = "SE9126778385485249588713"
-        XCTAssert(!invalidIban.isValidIBAN, "'\(invalidIban)' should not be valid")
+        XCTAssert(!Validator.validate(iban: invalidIban), "'\(invalidIban)' should not be valid")
         
         invalidIban = "ES4531905521837434874246"
-        XCTAssert(!invalidIban.isValidIBAN, "'\(invalidIban)' should not be valid")
+        XCTAssert(!Validator.validate(iban: invalidIban), "'\(invalidIban)' should not be valid")
         
         invalidIban = "BA021028997791294138"
-        XCTAssert(!invalidIban.isValidIBAN, "'\(invalidIban)' should not be valid")
+        XCTAssert(!Validator.validate(iban: invalidIban), "'\(invalidIban)' should not be valid")
     }
 }

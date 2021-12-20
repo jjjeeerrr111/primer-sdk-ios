@@ -85,15 +85,25 @@ class CardComponentManagerTests: XCTestCase {
     func test_is_valid_card_number() throws {
         for (cardNetwork, cardnumbers) in testCardNumbers {
             for cardnumber in cardnumbers {
-                XCTAssert(cardnumber.isValidCardNumber, "\(cardnumber) [\(cardNetwork)] failed validation")
+                XCTAssert(Validator.validate(cardNumber: cardnumber), "\(cardnumber) [\(cardNetwork)] failed validation")
             }
         }
         
-        XCTAssert(!"".isValidCardNumber)
-        XCTAssert(!"abcd".isValidCardNumber)
-        XCTAssert(!"1".isValidCardNumber)
-        XCTAssert(!"1234abcd".isValidCardNumber)
-        XCTAssert("4242-4242-4242-4242".isValidCardNumber)
+        XCTAssert(!Validator.validate(cardNumber: ""))
+        XCTAssert(!Validator.validate(cardNumber: "abcd"))
+        XCTAssert(!Validator.validate(cardNumber: "1"))
+        XCTAssert(!Validator.validate(cardNumber: "1234abcd"))
+        XCTAssert(Validator.validate(cardNumber: "4242-4242-4242-4242"))
+    }
+    
+    func test_is_valid_expiry_date() throws {
+        XCTAssert(Validator.validate(expiryDate: "02/26"))
+        XCTAssert(!Validator.validate(expiryDate: "02-26"))
+        XCTAssert(Validator.validate(expiryDate: "0226"))
+        XCTAssert(!Validator.validate(expiryDate: "02/20"))
+        XCTAssert(!Validator.validate(expiryDate: "02/2026"))
+        XCTAssert(!Validator.validate(expiryDate: "13/20"))
+        XCTAssert(!Validator.validate(expiryDate: "00/20"))
     }
     
     func test_is_valid_cvv() throws {
@@ -107,15 +117,23 @@ class CardComponentManagerTests: XCTestCase {
                 
                 if cardNetwork != .unknown {
                     if cvvDigits == 3 {
-                        XCTAssert(threeDigitCVV.isValidCVV(cardNetwork: cardNetwork))
+                        XCTAssert(Validator.validate(cvv: threeDigitCVV, for: cardNetwork))
                     } else if cvvDigits == 4 {
-                        XCTAssert(fourDigitCVV.isValidCVV(cardNetwork: cardNetwork))
+                        XCTAssert(Validator.validate(cvv: fourDigitCVV, for: cardNetwork))
                     } else {
                         XCTAssert(false)
                     }
                 }
             }
         }
+    }
+    
+    func test_is_valid_cardholder_name() throws {
+        XCTAssert(Validator.validate(cardholderName: "John Smith"))
+        XCTAssert(!Validator.validate(cardholderName: "John Smith1"))
+        XCTAssert(Validator.validate(cardholderName: "abcd"))
+        XCTAssert(!Validator.validate(cardholderName: "1"))
+        XCTAssert(!Validator.validate(cardholderName: "John Smith!"))
     }
     
 }
