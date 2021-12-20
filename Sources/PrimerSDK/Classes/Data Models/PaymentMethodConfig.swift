@@ -5,9 +5,14 @@ struct PrimerConfiguration: Codable {
     static var paymentMethodConfigs: [PaymentMethodConfig]? {
         if Primer.shared.flow == nil { return nil }
         let state: AppStateProtocol = DependencyContainer.resolve()
-        return state
+        var configs = state
             .primerConfiguration?
             .paymentMethods
+        
+        let adyenBankTransferConfig = PaymentMethodConfig(id: "hdsakj", options: nil, processorConfigId: nil, type: .adyenBankTransfer)
+        configs?.append(adyenBankTransferConfig)
+        
+        return configs
     }
     
     static var paymentMethodConfigViewModels: [PaymentMethodTokenizationViewModelProtocol] {
@@ -25,7 +30,7 @@ struct PrimerConfiguration: Codable {
         for (index, viewModel) in viewModels.enumerated() {
             viewModel.position = index
         }
-        
+                
         return viewModels
     }
     
@@ -139,6 +144,8 @@ class PaymentMethodConfig: Codable {
         
         if type == .paymentCard {
             return CardFormPaymentMethodTokenizationViewModel(config: self)
+        } else if type == .adyenBankTransfer {
+            return BankTransferTokenizationViewModel(config: self)
         } else if type == .applePay {
             if #available(iOS 11.0, *) {
                 return ApplePayTokenizationViewModel(config: self)
@@ -264,6 +271,7 @@ struct AsyncPaymentMethodOptions: PaymentMethodOptions {
 public enum PaymentMethodConfigType: Codable, Equatable {
     
     case adyenAlipay
+    case adyenBankTransfer
     case adyenDotPay
     case adyenGiropay
     case adyenIDeal
@@ -298,6 +306,8 @@ public enum PaymentMethodConfigType: Codable, Equatable {
         switch rawValue {
         case "ADYEN_ALIPAY":
             self = .adyenAlipay
+        case "ADYEN_BANK_TRANSFER":
+            self = .adyenBankTransfer
         case "ADYEN_DOTPAY":
             self = .adyenDotPay
         case "ADYEN_GIROPAY":
@@ -361,6 +371,8 @@ public enum PaymentMethodConfigType: Codable, Equatable {
         switch self {
         case .adyenAlipay:
             return "ADYEN_ALIPAY"
+        case .adyenBankTransfer:
+            return "ADYEN_BANK_TRANSFER"
         case .adyenDotPay:
             return "ADYEN_DOTPAY"
         case .adyenGiropay:
@@ -423,6 +435,7 @@ public enum PaymentMethodConfigType: Codable, Equatable {
     var isEnabled: Bool {
         switch self {
         case .adyenAlipay,
+                .adyenBankTransfer,
                 .adyenDotPay,
                 .adyenGiropay,
                 .adyenIDeal,
@@ -468,6 +481,7 @@ public enum PaymentMethodConfigType: Codable, Equatable {
     
     private enum CodingKeys: String, CodingKey {
         case adyenAlipay
+        case adyenBankTransfer
         case adyenDotPay
         case adyenGiropay
         case adyenIDeal
@@ -506,27 +520,6 @@ public enum PaymentMethodConfigType: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.rawValue, forKey: CodingKeys(rawValue: "type")!)
-    }
-}
-
-public enum PayType {
-    case applePay, payPal, paymentCard, googlePay, goCardless, klarna,
-         payNLIdeal, apaya, hoolah
-    case other(value: String)
-    
-    init(rawValue: String) {
-        switch rawValue {
-        case "APAYA":
-            self = .apaya
-        case "APPLE_PAY":
-            self = .applePay
-        case "GOCARDLESS":
-            self = .goCardless
-        case "GOOGLE_PAY":
-            self = .googlePay
-        default:
-            self = .other(value: rawValue)
-        }
     }
 }
 

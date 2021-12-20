@@ -205,6 +205,9 @@ public class Primer {
         case (.adyenAlipay, .checkout):
             flow = .checkoutWithAsyncPaymentMethod(paymentMethodType: .adyenAlipay)
             
+        case (.adyenBankTransfer, .checkout):
+            flow = .checkoutWithAsyncPaymentMethod(paymentMethodType: .adyenBankTransfer)
+            
         case (.adyenDotPay, .checkout):
             flow = .checkoutWithAdyenBank
             
@@ -294,6 +297,7 @@ public class Primer {
             (.goCardlessMandate, _),
             (.googlePay, _),
             (.adyenAlipay, .vault),
+            (.adyenBankTransfer, .vault),
             (.adyenDotPay, .vault),
             (.adyenGiropay, .vault),
             (.adyenIDeal, .vault),
