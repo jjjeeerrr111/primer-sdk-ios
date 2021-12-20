@@ -100,6 +100,8 @@
 		800E5785D22B0BC5158F1171EF2751BE /* ExternalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F94A36E946534849766A9AB921850283 /* ExternalViewModel.swift */; };
 		80C20296C344C4F7CCFDFD932DFEA57D /* SuccessMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C0EDA59D20BEFB788900FE6BD5D82F /* SuccessMessage.swift */; };
 		8429BDF027706818003E5CE0 /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8429BDEF27706818003E5CE0 /* Validator.swift */; };
+		84E1EAE62770B4EA009BCD97 /* BankTransferTokenizationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E1EAE52770B4EA009BCD97 /* BankTransferTokenizationViewModel.swift */; };
+		84E1EAE82770BA32009BCD97 /* BankTransferViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E1EAE72770BA32009BCD97 /* BankTransferViewController.swift */; };
 		85FF7022E6988ADA9DCED2FE2FC4DD57 /* PrimerTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D0DD8342D6D18DEDC75940CD7667004 /* PrimerTextFieldView.swift */; };
 		8CEFD994A83B1F7D305D6F0B4D098A8D /* RateLimitedDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 416F924A5E405BB631F6FFB404C30334 /* RateLimitedDispatcher.swift */; };
 		8D1D6700E47C1D97A5E40241C340C448 /* RecoverWrappers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F36D0194C726CEF189F8501E8111E82 /* RecoverWrappers.swift */; };
@@ -321,6 +323,8 @@
 		81929966EA4240C5FF16B09481A0AF1B /* PrimerUniversalCheckoutViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PrimerUniversalCheckoutViewController.swift; sourceTree = "<group>"; };
 		8429BDEF27706818003E5CE0 /* Validator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
 		843C581B543ED72E5C08F854D98D06DB /* PrimerTheme.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PrimerTheme.swift; sourceTree = "<group>"; };
+		84E1EAE52770B4EA009BCD97 /* BankTransferTokenizationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankTransferTokenizationViewModel.swift; sourceTree = "<group>"; };
+		84E1EAE72770BA32009BCD97 /* BankTransferViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankTransferViewController.swift; sourceTree = "<group>"; };
 		8500B1020E184820887439BED1472F6F /* PrimerCardholderNameFieldView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PrimerCardholderNameFieldView.swift; sourceTree = "<group>"; };
 		85936DC75EB887A9FAD9CA77B6338F0B /* PrimerNibView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PrimerNibView.swift; sourceTree = "<group>"; };
 		85DF76D6AF6B86530AAE26072ECC1116 /* UXMode.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = UXMode.swift; sourceTree = "<group>"; };
@@ -677,6 +681,7 @@
 			children = (
 				01515642261F6921E46AEAC762B196E4 /* BankSelectorViewController.swift */,
 				E0D1997FE22566E94775C8B9471EE004 /* BankTableViewCell.swift */,
+				84E1EAE72770BA32009BCD97 /* BankTransferViewController.swift */,
 			);
 			path = Banks;
 			sourceTree = "<group>";
@@ -1078,6 +1083,7 @@
 				89FD4ED770AD6336EB8EFF9106CA8FFA /* KlarnaTokenizationViewModel.swift */,
 				D19C617378B30A382DF7186966FCB22A /* PaymentMethodTokenizationViewModel.swift */,
 				EB04465363FE6BB7216C73861CB69883 /* PayPalTokenizationViewModel.swift */,
+				84E1EAE52770B4EA009BCD97 /* BankTransferTokenizationViewModel.swift */,
 			);
 			path = TokenizationViewModels;
 			sourceTree = "<group>";
@@ -1320,6 +1326,7 @@
 				5F1A738112C34C9F57A3D2FB5070A2FD /* BankSelectorViewController.swift in Sources */,
 				A4F7E15C77EEA7EEA742ACBD1024C436 /* BankTableViewCell.swift in Sources */,
 				2CF77861B882D12D595BC106F687D1BB /* Box.swift in Sources */,
+				84E1EAE82770BA32009BCD97 /* BankTransferViewController.swift in Sources */,
 				208361AF9AF1889A2C425D261D500A06 /* BundleExtension.swift in Sources */,
 				FCD34477E4E91B11B4A94455EC783F93 /* CancelContext.swift in Sources */,
 				DFF9CB5DF899F3C49D8048E830E8F530 /* Cancellable.swift in Sources */,
@@ -1417,6 +1424,7 @@
 				69DD5C709E564634A850AC8BC522C2A2 /* PrimerRootViewController.swift in Sources */,
 				C4E3A923DD92E057524365AAB1D89005 /* PrimerScrollView.swift in Sources */,
 				751F2945047800B24F0170DE5D26559D /* PrimerSDK-dummy.m in Sources */,
+				84E1EAE62770B4EA009BCD97 /* BankTransferTokenizationViewModel.swift in Sources */,
 				E0FC20D42CE5F598B7C2662DF0222C5C /* PrimerSearchTextField.swift in Sources */,
 				C01D0FDC2AB2F28D9629A923567E775A /* PrimerSettings.swift in Sources */,
 				A072A3CA74AD7133D570B68FC625A6A2 /* PrimerTableViewCell.swift in Sources */,
