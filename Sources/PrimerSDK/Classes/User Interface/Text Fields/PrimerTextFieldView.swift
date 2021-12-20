@@ -75,6 +75,7 @@ public class PrimerTextFieldView: PrimerNibView, UITextFieldDelegate {
     public var minimumFontSize: CGFloat = 0.0 { didSet { textField.minimumFontSize = minimumFontSize } }
     public var background: UIImage? { didSet { textField.background = background } }
     public var disabledBackground: UIImage? { didSet { textField.disabledBackground = disabledBackground } }
+    public var keyboardType: UIKeyboardType? { didSet { textField.keyboardType == keyboardType } }
     public var isEditing: Bool {
         return textField.isEditing
     }
