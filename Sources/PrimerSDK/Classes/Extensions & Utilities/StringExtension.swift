@@ -235,6 +235,43 @@ internal extension String {
         return str
     }
     
+    /**
+     Validates if string is a valid IBAN. Follows the principles for IBAN validation found https://en.wikipedia.org/wiki/International_Bank_Account_Number#Validating_the_IBAN
+     
+     - Important:
+     It will only take alphanumeric characters into account.
+     */
+    var isValidIBAN: Bool {
+        let tmpIBAN = self.keepOnlyCharacters(in: CharacterSet.alphanumerics)
+        return tmpIBAN.isValidIBANChecksum
+    }
+    
+    private var isValidIBANChecksum: Bool {
+        guard self.count >= 4 else { return false }
+        
+        let uppercase = self.uppercased()
+        
+        // Interpret the string as a decimal integer and compute the remainder of that number on division by 97
+        let symbols: [Character] = Array(uppercase)
+        let swapped = symbols.dropFirst(IBAN.controlNumberStart + IBAN.controlNumberLength) + symbols.prefix(IBAN.controlNumberEnd)
+        
+        let mod: Int = swapped.reduce(0) { (previousMod, char) in
+            // Replace each letter in the string with two digits, thereby expanding the string, where A = 10, B = 11, ..., Z = 35
+            let value = Int(String(char), radix: 36)! // "0" => 0, "A" => 10, "Z" => 35
+            let factor = value < 10 ? 10 : 100
+            return (factor * previousMod + value) % IBAN.modulo
+        }
+        
+        return mod == 1
+    }
+    
+}
+
+class IBAN {
+    static let controlNumberStart: Int = 2
+    static let controlNumberEnd: Int = 4
+    static let controlNumberLength = 2
+    static let modulo = 97
 }
 
 #endif
