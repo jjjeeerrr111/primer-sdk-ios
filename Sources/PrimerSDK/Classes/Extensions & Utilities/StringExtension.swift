@@ -14,9 +14,9 @@ internal extension String {
     var withoutWhiteSpace: String {
         return self.replacingOccurrences(of: " ", with: "").trimmingCharacters(in: .whitespacesAndNewlines)
     }
-
-    var isNotValidIBAN: Bool {
-        return self.withoutWhiteSpace.count < 6
+    
+    func keepOnlyCharacters(in set: CharacterSet) -> String {
+        return components(separatedBy: set.inverted).joined(separator: "")
     }
 
     var urlEscaped: String? {
