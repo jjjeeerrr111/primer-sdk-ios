@@ -1,5 +1,5 @@
 //
-//  FormTokenizationViewModel.swift
+//  CardFormPaymentMethodTokenizationViewModel.swift
 //  PrimerSDK
 //
 //  Created by Evangelos Pittas on 11/10/21.
