@@ -12,40 +12,40 @@ import XCTest
 
 class StringTests: XCTestCase {
     
-    func test_fix_base64_str() throws {
+    func test_fix_base64_ios_format_str() throws {
         var originalBase64Str = ""
         var fixedBsed64Str = ""
 
         originalBase64Str = "a"
-        fixedBsed64Str = originalBase64Str.fixedBase64Format
+        fixedBsed64Str = originalBase64Str.base64IOSFormat
         XCTAssert(fixedBsed64Str == "a===", "Should be converted to 'a==='")
         
         originalBase64Str = "ab"
-        fixedBsed64Str = originalBase64Str.fixedBase64Format
+        fixedBsed64Str = originalBase64Str.base64IOSFormat
         XCTAssert(fixedBsed64Str == "ab==", "Should be converted to 'ab=='")
         
         originalBase64Str = "abc"
-        fixedBsed64Str = originalBase64Str.fixedBase64Format
+        fixedBsed64Str = originalBase64Str.base64IOSFormat
         XCTAssert(fixedBsed64Str == "abc=", "Should be converted to 'abc='")
         
         originalBase64Str = "abcd"
-        fixedBsed64Str = originalBase64Str.fixedBase64Format
+        fixedBsed64Str = originalBase64Str.base64IOSFormat
         XCTAssert(fixedBsed64Str == "abcd", "Should be converted to 'abcd'")
         
         originalBase64Str = "a_cd"
-        fixedBsed64Str = originalBase64Str.fixedBase64Format
+        fixedBsed64Str = originalBase64Str.base64IOSFormat
         XCTAssert(fixedBsed64Str == "a/cd", "Should be converted to 'a/cd'")
         
         originalBase64Str = "ab-d"
-        fixedBsed64Str = originalBase64Str.fixedBase64Format
+        fixedBsed64Str = originalBase64Str.base64IOSFormat
         XCTAssert(fixedBsed64Str == "ab+d", "Should be converted to 'ab+d'")
         
         originalBase64Str = "a_-d"
-        fixedBsed64Str = originalBase64Str.fixedBase64Format
+        fixedBsed64Str = originalBase64Str.base64IOSFormat
         XCTAssert(fixedBsed64Str == "a/+d", "Should be converted to 'a/+d'")
         
         originalBase64Str = "a_-d_"
-        fixedBsed64Str = originalBase64Str.fixedBase64Format
+        fixedBsed64Str = originalBase64Str.base64IOSFormat
         XCTAssert(fixedBsed64Str == "a/+d/===", "Should be converted to 'a/+d/==='")
     }
     
@@ -54,5 +54,90 @@ class StringTests: XCTestCase {
         
         XCTAssert(base64Str.jwtTokenPayload != nil, "Should be able to decode base64 with _ chars")
     }
+    
+    func test_strip_characters() throws {
+        var str = " jsK89() _\n+bdsao821^   "
+        var strippedStr = str.keepOnlyCharacters(in: CharacterSet.alphanumerics)
+        XCTAssert(strippedStr == "jsK89bdsao821", "'\(str)' should be converted to 'jsK89bdsao821'")
+        
+        str = " "
+        strippedStr = str.keepOnlyCharacters(in: CharacterSet.alphanumerics)
+        XCTAssert(strippedStr == "", "'\(str)' should be converted to ''")
+        
+        str = "-"
+        strippedStr = str.keepOnlyCharacters(in: CharacterSet.alphanumerics)
+        XCTAssert(strippedStr == "", "'\(str)' should be converted to ''")
+        
+        str = " -"
+        strippedStr = str.keepOnlyCharacters(in: CharacterSet.alphanumerics)
+        XCTAssert(strippedStr == "", "'\(str)' should be converted to ''")
+        
+        str = " -1"
+        strippedStr = str.keepOnlyCharacters(in: CharacterSet.alphanumerics)
+        XCTAssert(strippedStr == "1", "'\(str)' should be converted to '1'")
+        
+        str = "1"
+        strippedStr = str.keepOnlyCharacters(in: CharacterSet.alphanumerics)
+        XCTAssert(strippedStr == "1", "'\(str)' should be converted to '1'")
+        
+        str = "a"
+        strippedStr = str.keepOnlyCharacters(in: CharacterSet.alphanumerics)
+        XCTAssert(strippedStr == "a", "'\(str)' should be converted to 'a'")
+    }
 
+    func test_is_valid_iban() throws {
+        var validIban = "NL10INGB6686956546"
+        XCTAssert(validIban.isValidIBAN, "'\(validIban)' should be valid")
+
+        validIban = "GB97BARC20038467693594"
+        XCTAssert(validIban.isValidIBAN, "'\(validIban)' should be valid")
+
+        validIban = "FR2530003000401478933878E80"
+        XCTAssert(validIban.isValidIBAN, "'\(validIban)' should be valid")
+
+        validIban = "DE70500105174453316465"
+        XCTAssert(validIban.isValidIBAN, "'\(validIban)' should be valid")
+
+        validIban = "EE371212446149126837"
+        XCTAssert(validIban.isValidIBAN, "'\(validIban)' should be valid")
+
+        validIban = "FI8088315212931538"
+        XCTAssert(validIban.isValidIBAN, "'\(validIban)' should be valid")
+
+        validIban = "SE9126778385485249588712"
+        XCTAssert(validIban.isValidIBAN, "'\(validIban)' should be valid")
+
+        validIban = "ES4531905521837434874245"
+        XCTAssert(validIban.isValidIBAN, "'\(validIban)' should be valid")
+
+        validIban = "BA021028997791294137"
+        XCTAssert(validIban.isValidIBAN, "'\(validIban)' should be valid")
+        
+        var invalidIban = "NL10INGB6686956547"
+        XCTAssert(!invalidIban.isValidIBAN, "'\(invalidIban)' should not be valid")
+        
+        invalidIban = "GB97BARC20038467693595"
+        XCTAssert(!invalidIban.isValidIBAN, "'\(invalidIban)' should not be valid")
+        
+        invalidIban = "FR2530003000401478933878E81"
+        XCTAssert(!invalidIban.isValidIBAN, "'\(invalidIban)' should not be valid")
+        
+        invalidIban = "DE70500105174453316466"
+        XCTAssert(!invalidIban.isValidIBAN, "'\(invalidIban)' should not be valid")
+        
+        invalidIban = "EE371212446149126838"
+        XCTAssert(!invalidIban.isValidIBAN, "'\(invalidIban)' should not be valid")
+        
+        invalidIban = "FI8088315212931539"
+        XCTAssert(!invalidIban.isValidIBAN, "'\(invalidIban)' should not be valid")
+        
+        invalidIban = "SE9126778385485249588713"
+        XCTAssert(!invalidIban.isValidIBAN, "'\(invalidIban)' should not be valid")
+        
+        invalidIban = "ES4531905521837434874246"
+        XCTAssert(!invalidIban.isValidIBAN, "'\(invalidIban)' should not be valid")
+        
+        invalidIban = "BA021028997791294138"
+        XCTAssert(!invalidIban.isValidIBAN, "'\(invalidIban)' should not be valid")
+    }
 }
