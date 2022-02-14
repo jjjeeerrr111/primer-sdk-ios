@@ -1,0 +1,99 @@
+{
+    "errors": {
+        "unknown-error": {
+            "description": "Cannot initialize the SDK due to an unknown error. Apologies that we can’t give you any more details :(",
+            "recoverySuggestion": "Contact Primer and provide us with diagnostics id $id"
+        },
+        "unsupported-intent": {
+            "description": "Cannot initialize the SDK because $pm_name does not support intent $intent.",
+            "recoverySuggestion": "Use a different payment method for intent $intent, or $pm_name with intent $opposite_intent."
+        },
+        "invalid-client-token": {
+            "description": "Cannot initialize the SDK because the client token provided through the '$callback_name_on_your_platform' is not a valid client token.\n\nPS: It's not an API key ;)",
+            "recoverySuggestion": "Ensure that the client token fetched from your backend is a valid client token (i.e. not null, not empty, and it comes from Primer)."
+        },
+        "expired-client-token": {
+            "description": "Cannot initialize the SDK because the client token provided through the '$callback_name_on_your_platform' is expired. Remember Primer client tokens expire after 24 hours.",
+            "recoverySuggestion": "Avoid storing client tokens locally. Fetch a new client token and provide it on '$callback_name_on_your_platform'."
+        },
+        "malformed-client-token": {
+            "description": "Cannot initialize the SDK because the client token provided through the '$callback_name_on_your_platform' is malformed.",
+            "recoverySuggestion": "Ensure that the client token provided on '$callback_name_on_your_platform' comes from Primer."
+        },
+        "invalid-configuration": {
+            "description": "Cannot present any payment methods because of the client session configuration and the SDK's settings.",
+            "recoverySuggestion": "Ensure that the client session request made from your backend to Primer and/or the SDK settings are configured correctly. Also make sure that payment methods are configured correctly on your dashboard. Visit our documentation for further information (https://primer.io/docs/api/#tag/Client-Session) and validate the payment methods on your dashboard (https://sandbox-dashboard.primer.io/)."
+        },
+        "invalid-amount": {
+            "description": "Cannot initialize the Universal Checkout because the amount provided [$amount] in the SDK is not valid.",
+            "recoverySuggestion": "Provide the amount on your client session since setting it on the SDK has been deprecated. If you continue using the SDK's settings, make sure that the amount [$amount] is provided on the PrimerSettings object."
+        },
+        "invalid-currency": {
+            "description": "Cannot initialize the Universal Checkout / Vault Manager because the currency provided [$currency] in the SDK is not valid.",
+            "recoverySuggestion": "Provide the currency on your client session since setting it on the SDK has been deprecated. If you continue using the SDK's settings, make sure that the currency [$currency] is provided on the PrimerSettings object."
+        },
+        "invalid-country-code": {
+            "description": "Cannot initialize the Universal Checkout / Vault Manager because the country code provided [$countryCode] in the SDK is not valid.",
+            "recoverySuggestion": "Provide the country code on your client session since setting it on the SDK has been deprecated. If you continue using the SDK's settings, make sure that the country code [$countryCode] is provided on the PrimerSettings object."
+        },
+        "missing-merchant-identifier": {
+            "description": "Cannot initialize the Universal Checkout because the merchant identifier [$mid] is missing from the SDK settings.",
+            "recoverySuggestion": "Ensure that you have provided a valid merchant identifier when you set the SDK's settings (i.e. PrimerSettings(merchantIdentifier: 'merchant.dx.team'). The merchant identifier provided must be the same as the one in your app's entitlements."
+        },
+        "invalid-merchant-entitlements": {
+            "description": "Cannot present Apple Pay because the app's entitlements are not valid.",
+            "recoverySuggestion": "Ensure that merchant identifier $mid is included in the app's entitlement file, under the 'Merchant IDs' array."
+        },
+        "failed-to-create-session": {
+            "description": "Failed to create session with 3rd party connection $connection.",
+            "recoverySuggestion": "Ensure that the $connection is configured correctly on the dashboard (https://sandbox-dashboard.primer.io/)"
+        },
+        "failed-to-present-payment-method": {
+            "description": "Failed to present $pm because ...[write the reason, e.g. for Apple Pay it could be: Apple Pay does not support payment on network $network].",
+            "recoverySuggestion": "Ensure that the $pm is configured correctly on the dashboard (https://sandbox-dashboard.primer.io/) and that the client session configuration is valid."
+        },
+        "bad-network": {
+            "description": "Failed to perform $contect because there is no internet connection.",
+            "recoverySuggestion": "Check the internet connection and retry."
+        }
+    },
+    "warnings": {
+        "deprecation": {
+            "description": "Function/Variable [$name] is deprecated, and will be removed in a future release.",
+            "recoverySuggestion": "Use function/variable $new_name instead."
+        },
+        "identical-client-token": {
+            "description": "The client token provided through the '$callback_name_on_your_platform' is identical with the previously provided client token. Are you sure this was done on purpose?",
+            "recoverySuggestion": null
+        },
+        "backend-warning": {
+            "description": "beWarning.message",
+            "recoverySuggestion": "beWarning.recoverySuggestion",
+            "diagnosticId": "beWarning.diagnosticId"
+        },
+        "unsupported-payment-method": {
+            "description": "Cannot initialize the SDK because $pm_name is not supported on $param_country_currency_os_device_etc",
+            "recoverySuggestion": "Ensure that the payment method $pm_name - $param_country_currency_os_device_etc combination is correct."
+        },
+        "misconfigured-payment-method": {
+            "description": "Cannot present $pm_name because it has not been configured correctly.",
+            "recoverySuggestion": "Ensure that $pm_name has been configured correctly on your dashboard (https://sandbox-dashboard.primer.io/) and that the client session configuration is valid for this payment method (visit https://pm_specs) for more information."
+        },
+        "invalid-card-number": {
+            "description": "Cannot tokenize the card details because the card number is invalid.",
+            "recoverySuggestion": null
+        },
+        "invalid-expiry-date": {
+            "description": "Cannot tokenize the card details because the expiry date [$provided_expiry_date] is not valid.",
+            "recoverySuggestion": null
+        },
+        "invalid-cvv": {
+            "description": "Cannot tokenize the card details because $cardNetwork CVV should be $validationReason.",
+            "recoverySuggestion": null
+        },
+        "invalid-postal-code": {
+            "description": "Cannot tokenize the card details because postal code [$postal_code] is not valid for [$country_code] ",
+            "recoverySuggestion": null
+        }
+    }
+}
