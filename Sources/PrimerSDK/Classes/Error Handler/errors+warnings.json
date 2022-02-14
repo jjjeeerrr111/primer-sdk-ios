@@ -5,8 +5,8 @@
             "recoverySuggestion": "Contact Primer and provide us with diagnostics id $id"
         },
         "unsupported-intent": {
-            "description": "Cannot initialize the SDK because $pm_name does not support intent $intent.",
-            "recoverySuggestion": "Use a different payment method for intent $intent, or $pm_name with intent $opposite_intent."
+            "description": "Cannot initialize the SDK because $$$ does not support intent $$$.",
+            "recoverySuggestion": "Use a different payment method for intent $$$, or a different payment method with intent $$$."
         },
         "invalid-client-token": {
             "description": "Cannot initialize the SDK because the client token provided through the '$callback_name_on_your_platform' is not a valid client token.\n\nPS: It's not an API key ;)",

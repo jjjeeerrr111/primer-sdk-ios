@@ -245,6 +245,39 @@ internal enum ValidationError: PrimerErrorProtocol {
 }
 
 internal enum PrimerError: PrimerErrorProtocol {
+    
+    static var errors: [String: Any]? = {
+        if let path = Bundle.primerFramework.path(forResource: "errors+warnings", ofType: "json") {
+            do {
+                  let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+                  let jsonResult = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves)
+                  if let jsonResult = jsonResult as? [String: Any] {
+                      return jsonResult["errors"] as? [String: Any]
+                  }
+              } catch {
+                  return nil
+              }
+        }
+        
+        return nil
+    }()
+    
+    static var warnings: [String: Any]? = {
+        if let path = Bundle.primerFramework.path(forResource: "errors+warnings", ofType: "json") {
+            do {
+                  let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
+                  let jsonResult = try JSONSerialization.jsonObject(with: data, options: .mutableLeaves)
+                  if let jsonResult = jsonResult as? [String: Any] {
+                      return jsonResult["errors"] as? [String: Any]
+                  }
+              } catch {
+                  return nil
+              }
+        }
+        
+        return nil
+    }()
+    
     case generic(message: String, userInfo: [String: String]?)
     case invalidClientToken(userInfo: [String: String]?)
     case missingPrimerConfiguration(userInfo: [String: String]?)
@@ -263,7 +296,7 @@ internal enum PrimerError: PrimerErrorProtocol {
     case invalidValue(key: String, value: Any?, userInfo: [String: String]?)
     case unableToMakePaymentsOnProvidedNetworks(userInfo: [String: String]?)
     case unableToPresentPaymentMethod(paymentMethodType: PaymentMethodConfigType, userInfo: [String: String]?)
-    case unsupportedIntent(intent: PrimerSessionIntent, userInfo: [String: String]?)
+    case unsupportedIntent(paymentMethodConfigType:  PaymentMethodConfigType,intent: PrimerSessionIntent, userInfo: [String: String]?)
     case underlyingErrors(errors: [Error], userInfo: [String: String]?)
     
     var errorId: String {
@@ -305,7 +338,7 @@ internal enum PrimerError: PrimerErrorProtocol {
         case .unableToPresentPaymentMethod:
             return "unable-to-present-payment-method"
         case .unsupportedIntent:
-            return "unsupported-session-intent"
+            return "unsupported-intent"
         case .underlyingErrors:
             return "generic-underlying-errors"
         }
@@ -355,8 +388,14 @@ internal enum PrimerError: PrimerErrorProtocol {
             return "[\(errorId)] Unable to make payments on provided networks"
         case .unableToPresentPaymentMethod(let paymentMethodType, _):
             return "[\(errorId)] Unable to present payment method \(paymentMethodType.rawValue)"
-        case .unsupportedIntent(let intent, _):
-            return "[\(errorId)] Unsupported session intent \(intent.rawValue)"
+        case .unsupportedIntent(let paymentMethodConfigType, let intent, _):
+            if let unsupportedIntentError = PrimerError.errors?[errorId] as? [String: Any],
+               let errorDescription = unsupportedIntentError["description"] as? String {
+                let arr = errorDescription.components(separatedBy: "$$$")
+                return "[\(errorId)] " + arr[0] + "'\(paymentMethodConfigType.rawValue)'" + arr[1] + "'\(intent.rawValue)'" + arr[2]
+            }
+            
+            return "[\(errorId)] Cannot initialize the SDK because '\(paymentMethodConfigType.rawValue)' does not support intent '\(intent.rawValue)'"
         case .underlyingErrors(let errors, _):
             return "[\(errorId)] Multiple errors occured: \(errors.combinedDescription)"
         }
@@ -384,7 +423,7 @@ internal enum PrimerError: PrimerErrorProtocol {
                 .invalidValue(_, _, let userInfo),
                 .unableToMakePaymentsOnProvidedNetworks(let userInfo),
                 .unableToPresentPaymentMethod(_, let userInfo),
-                .unsupportedIntent(_, let userInfo),
+                .unsupportedIntent(_, _, let userInfo),
                 .underlyingErrors(_, let userInfo):
             tmpUserInfo = tmpUserInfo.merging(userInfo ?? [:]) { (_, new) in new }
         }
@@ -438,12 +477,25 @@ internal enum PrimerError: PrimerErrorProtocol {
             return nil
         case .unableToPresentPaymentMethod:
             return "Check if all necessary values have been provided on your client session. You can find the necessary values on our documentation (website)"
-        case .unsupportedIntent(let intent, _):
-            if intent == .checkout {
-                return "Change the intent to .vault"
-            } else {
-                return "Change the intent to .checkout"
+        case .unsupportedIntent(_, let intent, _):
+            if let unsupportedIntentError = PrimerError.errors?[errorId] as? [String: Any],
+               let recoverySuggestion = unsupportedIntentError["recoverySuggestion"] as? String {
+                let arr = recoverySuggestion.components(separatedBy: "$$$")
+                
+                if intent == .checkout {
+                    return arr[0] + "'\(intent.rawValue)'" + arr[1] + "'\(PrimerSessionIntent.vault.rawValue)'" + arr[2]
+                    
+                } else {
+                    return arr[0] + "'\(intent.rawValue)'" + arr[1] + "'\(PrimerSessionIntent.checkout.rawValue)'" + arr[2]
+                }
             }
+            
+            if intent == .checkout {
+                return "Use a different payment method for intent '\(intent.rawValue)', or a different payment method with intent '\(PrimerSessionIntent.vault)'."
+            } else {
+                return "Use a different payment method for intent '\(intent.rawValue)', or a different payment method with intent '\(PrimerSessionIntent.checkout)'."
+            }
+            
         case .underlyingErrors:
             return "Check underlying errors for more information."
         }
