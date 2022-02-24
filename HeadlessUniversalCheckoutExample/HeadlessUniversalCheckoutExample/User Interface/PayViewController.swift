@@ -15,7 +15,7 @@ class PayViewController: MyViewController {
     var payByCardButton: UIButton!
     let amount = 10001
     let currency = Currency.EUR
-    let countryCode = CountryCode.fr
+    let countryCode = CountryCode.de
     var cardFormUIManager: PrimerHeadlessUniversalCheckout.CardFormUIManager!
     
     var availablePaymentMethodsTypes: [PrimerPaymentMethodType]?
@@ -95,7 +95,7 @@ class PayViewController: MyViewController {
 
             self.payByCardButton.translatesAutoresizingMaskIntoConstraints = false
             self.payByCardButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-            self.payByCardButton.addTarget(self, action: #selector(self.payWithCardButtonTapped(_:)), for: .touchUpInside)
+            self.payByCardButton.addTarget(self, action: #selector(self.payWithCardTapped(_:)), for: .touchUpInside)
             self.payByCardButton.setTitle("Pay by card", for: .normal)
             self.payByCardButton.setTitleColor(.systemBlue, for: .normal)
             self.payByCardButton.setTitleColor(.gray, for: .disabled)
@@ -123,15 +123,135 @@ class PayViewController: MyViewController {
             separatorView4.heightAnchor.constraint(equalToConstant: 12).isActive = true
         }
         
+        if availablePaymentMethodsTypes.contains(.adyenAlipay) {
+            guard let adyenAliPayButton = PrimerHeadlessUniversalCheckout.makeButton(for: .adyenAlipay) else { return }
+            adyenAliPayButton.addTarget(self, action: #selector(self.payWithAdyenAliPayTapped(_:)), for: .touchUpInside)
+            self.stackView.addArrangedSubview(adyenAliPayButton)
+        }
+        
+        if availablePaymentMethodsTypes.contains(.adyenGiropay) {
+            guard let adyenGiropayButton = PrimerHeadlessUniversalCheckout.makeButton(for: .adyenGiropay) as? Button else { return }
+            adyenGiropayButton.addTarget(self, action: #selector(self.payWithAdyenGiropayTapped(_:)), for: .touchUpInside)
+            self.stackView.addArrangedSubview(adyenGiropayButton)
+        }
+        
+        if availablePaymentMethodsTypes.contains(.adyenMobilePay) {
+            guard let adyenMobilePayButton = PrimerHeadlessUniversalCheckout.makeButton(for: .adyenMobilePay) else { return }
+            adyenMobilePayButton.addTarget(self, action: #selector(self.payWithAdyenMobilePayTapped(_:)), for: .touchUpInside)
+            self.stackView.addArrangedSubview(adyenMobilePayButton)
+        }
+        
+        if availablePaymentMethodsTypes.contains(.adyenSofort) {
+            guard let adyenSofortButton = PrimerHeadlessUniversalCheckout.makeButton(for: .adyenSofort) else { return }
+            adyenSofortButton.addTarget(self, action: #selector(self.payWithAdyenSofortTapped(_:)), for: .touchUpInside)
+            self.stackView.addArrangedSubview(adyenSofortButton)
+        }
+        
+        if availablePaymentMethodsTypes.contains(.adyenTrustly) {
+            guard let adyenTrustlyButton = PrimerHeadlessUniversalCheckout.makeButton(for: .adyenTrustly) else { return }
+            adyenTrustlyButton.addTarget(self, action: #selector(self.payWithAdyenTrustlyTapped(_:)), for: .touchUpInside)
+            self.stackView.addArrangedSubview(adyenTrustlyButton)
+        }
+        
+        if availablePaymentMethodsTypes.contains(.adyenTwint) {
+            guard let adyenTwintButton = PrimerHeadlessUniversalCheckout.makeButton(for: .adyenTwint) else { return }
+            adyenTwintButton.addTarget(self, action: #selector(self.payWithAdyenTwintTapped(_:)), for: .touchUpInside)
+            self.stackView.addArrangedSubview(adyenTwintButton)
+        }
+        
+        if availablePaymentMethodsTypes.contains(.adyenVipps) {
+            guard let adyenVippsButton = PrimerHeadlessUniversalCheckout.makeButton(for: .adyenVipps) else { return }
+            adyenVippsButton.addTarget(self, action: #selector(self.payWithAdyenVippsTapped(_:)), for: .touchUpInside)
+            self.stackView.addArrangedSubview(adyenVippsButton)
+        }
+        
         if availablePaymentMethodsTypes.contains(.applePay) {
             guard let applePayButton = PrimerHeadlessUniversalCheckout.makeButton(for: .applePay) else { return }
-            applePayButton.addTarget(self, action: #selector(payWithApplePayButtonTapped(_:)), for: .touchUpInside)
+            applePayButton.addTarget(self, action: #selector(self.payWithApplePayTapped(_:)), for: .touchUpInside)
             self.stackView.addArrangedSubview(applePayButton)
+        }
+        
+        if availablePaymentMethodsTypes.contains(.atome) {
+            guard let atomeButton = PrimerHeadlessUniversalCheckout.makeButton(for: .atome) else { return }
+            atomeButton.addTarget(self, action: #selector(self.payWithAtomeTapped(_:)), for: .touchUpInside)
+            self.stackView.addArrangedSubview(atomeButton)
+        }
+        
+        if availablePaymentMethodsTypes.contains(.buckarooBancontact) {
+            guard let buckarooBancontactButton = PrimerHeadlessUniversalCheckout.makeButton(for: .buckarooBancontact) else { return }
+            buckarooBancontactButton.addTarget(self, action: #selector(self.payWithBuckarooBancontactTapped(_:)), for: .touchUpInside)
+            self.stackView.addArrangedSubview(buckarooBancontactButton)
+        }
+        
+        if availablePaymentMethodsTypes.contains(.buckarooEps) {
+            guard let buckarooEpsButton = PrimerHeadlessUniversalCheckout.makeButton(for: .buckarooEps) else { return }
+            buckarooEpsButton.addTarget(self, action: #selector(self.payWithBuckarooEpsTapped(_:)), for: .touchUpInside)
+            self.stackView.addArrangedSubview(buckarooEpsButton)
+        }
+        
+        if availablePaymentMethodsTypes.contains(.buckarooGiropay) {
+            guard let buckarooGiropayButton = PrimerHeadlessUniversalCheckout.makeButton(for: .buckarooGiropay) else { return }
+            buckarooGiropayButton.addTarget(self, action: #selector(self.payWithBuckarooGiropayTapped(_:)), for: .touchUpInside)
+            self.stackView.addArrangedSubview(buckarooGiropayButton)
+        }
+        
+        if availablePaymentMethodsTypes.contains(.buckarooIdeal) {
+            guard let buckarooIdealButton = PrimerHeadlessUniversalCheckout.makeButton(for: .buckarooIdeal) else { return }
+            buckarooIdealButton.addTarget(self, action: #selector(self.payWithBuckarooIdealTapped(_:)), for: .touchUpInside)
+            self.stackView.addArrangedSubview(buckarooIdealButton)
+        }
+        
+        if availablePaymentMethodsTypes.contains(.buckarooSofort) {
+            guard let buckarooSofortButton = PrimerHeadlessUniversalCheckout.makeButton(for: .buckarooSofort) else { return }
+            buckarooSofortButton.addTarget(self, action: #selector(self.payWithBuckarooSofortTapped(_:)), for: .touchUpInside)
+            self.stackView.addArrangedSubview(buckarooSofortButton)
+        }
+        
+        if availablePaymentMethodsTypes.contains(.hoolah) {
+            guard let hoolahButton = PrimerHeadlessUniversalCheckout.makeButton(for: .hoolah) else { return }
+            hoolahButton.addTarget(self, action: #selector(self.payWithHoolahTapped(_:)), for: .touchUpInside)
+            self.stackView.addArrangedSubview(hoolahButton)
+        }
+        
+        if availablePaymentMethodsTypes.contains(.mollieBankcontact) {
+            guard let mollieBankcontactButton = PrimerHeadlessUniversalCheckout.makeButton(for: .mollieBankcontact) else { return }
+            mollieBankcontactButton.addTarget(self, action: #selector(self.payWithMollieIdealTapped(_:)), for: .touchUpInside)
+            self.stackView.addArrangedSubview(mollieBankcontactButton)
+        }
+        
+        if availablePaymentMethodsTypes.contains(.mollieIdeal) {
+            guard let mollieIdealButton = PrimerHeadlessUniversalCheckout.makeButton(for: .mollieIdeal) else { return }
+            mollieIdealButton.addTarget(self, action: #selector(self.payWithMollieIdealTapped(_:)), for: .touchUpInside)
+            self.stackView.addArrangedSubview(mollieIdealButton)
+        }
+        
+        if availablePaymentMethodsTypes.contains(.payNLBancontact) {
+            guard let payNLBancontactButton = PrimerHeadlessUniversalCheckout.makeButton(for: .payNLBancontact) else { return }
+            payNLBancontactButton.addTarget(self, action: #selector(self.payWithPayNLBancontactTapped(_:)), for: .touchUpInside)
+            self.stackView.addArrangedSubview(payNLBancontactButton)
+        }
+        
+        if availablePaymentMethodsTypes.contains(.payNLGiropay) {
+            guard let payNLGiropayButton = PrimerHeadlessUniversalCheckout.makeButton(for: .payNLGiropay) else { return }
+            payNLGiropayButton.addTarget(self, action: #selector(self.payWithPayNLGiropayTapped(_:)), for: .touchUpInside)
+            self.stackView.addArrangedSubview(payNLGiropayButton)
+        }
+        
+        if availablePaymentMethodsTypes.contains(.payNLIdeal) {
+            guard let payNLIdealButton = PrimerHeadlessUniversalCheckout.makeButton(for: .payNLIdeal) else { return }
+            payNLIdealButton.addTarget(self, action: #selector(self.payWithPayNLIdealTapped(_:)), for: .touchUpInside)
+            self.stackView.addArrangedSubview(payNLIdealButton)
+        }
+        
+        if availablePaymentMethodsTypes.contains(.payNLPayconiq) {
+            guard let payNLPayconiqButton = PrimerHeadlessUniversalCheckout.makeButton(for: .payNLPayconiq) else { return }
+            payNLPayconiqButton.addTarget(self, action: #selector(self.payWithPayNLPayconiqTapped(_:)), for: .touchUpInside)
+            self.stackView.addArrangedSubview(payNLPayconiqButton)
         }
         
         if availablePaymentMethodsTypes.contains(.payPal) {
             guard let payPalButton = PrimerHeadlessUniversalCheckout.makeButton(for: .payPal) else { return }
-            payPalButton.addTarget(self, action: #selector(payWithPayPalButtonTapped(_:)), for: .touchUpInside)
+            payPalButton.addTarget(self, action: #selector(self.payWithPayPalButtonTapped(_:)), for: .touchUpInside)
             self.stackView.addArrangedSubview(payPalButton)
         }
     }
@@ -205,17 +325,99 @@ class PayViewController: MyViewController {
         self.payByCardButton.layer.borderColor = enabled ? UIColor.systemBlue.cgColor : UIColor.lightGray.cgColor
     }
     
-    @IBAction func payWithCardButtonTapped(_ sender: Any) {
+    @IBAction func payWithCardTapped(_ sender: Any) {
         self.cardFormUIManager?.tokenize()
     }
     
-    @IBAction func payWithApplePayButtonTapped(_ sender: Any) {
+    @IBAction func payWithAdyenAliPayTapped(_ sender: Any) {
+        PrimerHeadlessUniversalCheckout.current.showPaymentMethod(.adyenAlipay)
+    }
+    
+    @IBAction func payWithAdyenGiropayTapped(_ sender: Any) {
+        PrimerHeadlessUniversalCheckout.current.showPaymentMethod(.adyenGiropay)
+    }
+    
+    @IBAction func payWithAdyenMobilePayTapped(_ sender: Any) {
+        PrimerHeadlessUniversalCheckout.current.showPaymentMethod(.adyenMobilePay)
+    }
+    
+    @IBAction func payWithAdyenSofortTapped(_ sender: Any) {
+        PrimerHeadlessUniversalCheckout.current.showPaymentMethod(.adyenSofort)
+    }
+    
+    @IBAction func payWithAdyenTrustlyTapped(_ sender: Any) {
+        PrimerHeadlessUniversalCheckout.current.showPaymentMethod(.adyenTrustly)
+    }
+    
+    @IBAction func payWithAdyenTwintTapped(_ sender: Any) {
+        PrimerHeadlessUniversalCheckout.current.showPaymentMethod(.adyenTwint)
+    }
+    
+    @IBAction func payWithAdyenVippsTapped(_ sender: Any) {
+        PrimerHeadlessUniversalCheckout.current.showPaymentMethod(.adyenVipps)
+    }
+
+    @IBAction func payWithApplePayTapped(_ sender: Any) {
         PrimerHeadlessUniversalCheckout.current.showPaymentMethod(.applePay)
+    }
+    
+    @IBAction func payWithAtomeTapped(_ sender: Any) {
+        PrimerHeadlessUniversalCheckout.current.showPaymentMethod(.atome)
+    }
+    
+    @IBAction func payWithBuckarooBancontactTapped(_ sender: Any) {
+        PrimerHeadlessUniversalCheckout.current.showPaymentMethod(.buckarooBancontact)
+    }
+    
+    @IBAction func payWithBuckarooEpsTapped(_ sender: Any) {
+        PrimerHeadlessUniversalCheckout.current.showPaymentMethod(.buckarooEps)
+    }
+    
+    @IBAction func payWithBuckarooGiropayTapped(_ sender: Any) {
+        PrimerHeadlessUniversalCheckout.current.showPaymentMethod(.buckarooGiropay)
+    }
+    
+    @IBAction func payWithBuckarooIdealTapped(_ sender: Any) {
+        PrimerHeadlessUniversalCheckout.current.showPaymentMethod(.buckarooIdeal)
+    }
+    
+    @IBAction func payWithBuckarooSofortTapped(_ sender: Any) {
+        PrimerHeadlessUniversalCheckout.current.showPaymentMethod(.buckarooSofort)
+    }
+    
+    @IBAction func payWithHoolahTapped(_ sender: Any) {
+        PrimerHeadlessUniversalCheckout.current.showPaymentMethod(.hoolah)
+    }
+    
+    @IBAction func payWithMollieBankcontactTapped(_ sender: Any) {
+        PrimerHeadlessUniversalCheckout.current.showPaymentMethod(.mollieBankcontact)
+    }
+    
+    @IBAction func payWithMollieIdealTapped(_ sender: Any) {
+        PrimerHeadlessUniversalCheckout.current.showPaymentMethod(.mollieIdeal)
+    }
+    
+    @IBAction func payWithPayNLBancontactTapped(_ sender: Any) {
+        PrimerHeadlessUniversalCheckout.current.showPaymentMethod(.payNLBancontact)
+    }
+    
+    
+    @IBAction func payWithPayNLGiropayTapped(_ sender: Any) {
+        PrimerHeadlessUniversalCheckout.current.showPaymentMethod(.payNLGiropay)
+    }
+    
+    @IBAction func payWithPayNLIdealTapped(_ sender: Any) {
+        PrimerHeadlessUniversalCheckout.current.showPaymentMethod(.payNLIdeal)
+    }
+    
+    @IBAction func payWithPayNLPayconiqTapped(_ sender: Any) {
+        PrimerHeadlessUniversalCheckout.current.showPaymentMethod(.payNLPayconiq)
     }
     
     @IBAction func payWithPayPalButtonTapped(_ sender: Any) {
         PrimerHeadlessUniversalCheckout.current.showPaymentMethod(.payPal)
     }
+   
 }
 
 extension PayViewController: PrimerInputElementDelegate {
