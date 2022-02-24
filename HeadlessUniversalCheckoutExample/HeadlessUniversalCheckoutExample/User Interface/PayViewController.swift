@@ -130,7 +130,7 @@ class PayViewController: MyViewController {
         }
         
         if availablePaymentMethodsTypes.contains(.adyenGiropay) {
-            guard let adyenGiropayButton = PrimerHeadlessUniversalCheckout.makeButton(for: .adyenGiropay) as? Button else { return }
+            guard let adyenGiropayButton = PrimerHeadlessUniversalCheckout.makeButton(for: .adyenGiropay) else { return }
             adyenGiropayButton.addTarget(self, action: #selector(self.payWithAdyenGiropayTapped(_:)), for: .touchUpInside)
             self.stackView.addArrangedSubview(adyenGiropayButton)
         }
