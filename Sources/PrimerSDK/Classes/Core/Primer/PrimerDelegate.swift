@@ -87,8 +87,9 @@ internal class PrimerDelegateProxy {
         PrimerHeadlessUniversalCheckout.current.delegate?.primerHeadlessUniversalCheckoutTokenizationSucceeded(paymentMethodToken: paymentMethodToken, resumeHandler: resumeHandler)
     }
     
-    static func onResumeSuccess(_ clientToken: String, resumeHandler: ResumeHandlerProtocol) {
-        Primer.shared.delegate?.onResumeSuccess?(clientToken, resumeHandler: resumeHandler)
+    static func onResumeSuccess(_ resumeToken: String, resumeHandler: ResumeHandlerProtocol) {
+        Primer.shared.delegate?.onResumeSuccess?(resumeToken, resumeHandler: resumeHandler)
+        PrimerHeadlessUniversalCheckout.current.delegate?.primerHeadlessUniversalCheckoutResume(withResumeToken: resumeToken, resumeHandler: resumeHandler)
     }
     
     static func onResumeError(_ error: Error) {
@@ -135,6 +136,10 @@ internal class PrimerDelegateProxy {
     
     static func primerHeadlessUniversalCheckoutUniversalCheckoutDidFail(withError err: Error) {
 
+    }
+    
+    static func primerHeadlessUniversalCheckoutResume(withResumeToken resumeToken: String, resumeHandler: ResumeHandlerProtocol) {
+        PrimerHeadlessUniversalCheckout.current.delegate?.primerHeadlessUniversalCheckoutResume(withResumeToken: resumeToken, resumeHandler: resumeHandler)
     }
     
 //    static func onEvent(_ event: PrimerHeadlessUniversalCheckout.Event) {
