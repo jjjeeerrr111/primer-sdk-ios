@@ -31,6 +31,8 @@ class ExternalPaymentMethodTokenizationViewModel: PaymentMethodTokenizationViewM
             return "Buckaroo iDeal"
         case .buckarooSofort:
             return "Buckaroo Sofort"
+        case .coinbase:
+            return "Coinbase"
         case .hoolah:
             return "Hoolah"
         case .adyenInterac:
@@ -94,6 +96,14 @@ class ExternalPaymentMethodTokenizationViewModel: PaymentMethodTokenizationViewM
                 .adyenInterac,
                 .adyenPayTrail:
             return nil
+        case .coinbase:
+            // TODO: Add localized string via Strings.swift
+            return NSLocalizedString(
+                "payWithCrypto",
+                tableName: nil,
+                bundle: Bundle.primerResources,
+                value: "Pay with crypto",
+                comment: "Pay - pay with crypto (Button text)")
         default:
             assert(true, "Shouldn't end up in here")
             return nil
@@ -137,6 +147,8 @@ class ExternalPaymentMethodTokenizationViewModel: PaymentMethodTokenizationViewM
         case .buckarooSofort,
                 .adyenSofort:
             return UIImage(named: "sofort-logo", in: Bundle.primerResources, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+        case .coinbase:
+            return UIImage(named: "wallet-icon", in: Bundle.primerResources, compatibleWith: nil)
         case .adyenTrustly:
             return UIImage(named: "trustly-logo", in: Bundle.primerResources, compatibleWith: nil)
         case .adyenTwint:
@@ -177,11 +189,11 @@ class ExternalPaymentMethodTokenizationViewModel: PaymentMethodTokenizationViewM
             return UIColor(red: 255.0/255, green: 91.0/255, blue: 36.0/255, alpha: 1.0)
         case .atome:
             return UIColor(red: 240.0/255, green: 255.0/255, blue: 95.0/255, alpha: 1.0)
-        case .buckarooEps:
-            return .white
         case .hoolah:
             return UIColor(red: 214.0/255, green: 55.0/255, blue: 39.0/255, alpha: 1.0)
-        case .buckarooBancontact,
+        case .buckarooEps,
+                .buckarooBancontact,
+                .coinbase,
                 .mollieBankcontact,
                 .payNLBancontact:
             return .white
@@ -227,6 +239,8 @@ class ExternalPaymentMethodTokenizationViewModel: PaymentMethodTokenizationViewM
                 .payNLIdeal,
                 .payNLPayconiq:
             return nil
+        case .coinbase:
+            return .black
         default:
             assert(true, "Shouldn't end up in here")
             return nil
@@ -316,6 +330,7 @@ class ExternalPaymentMethodTokenizationViewModel: PaymentMethodTokenizationViewM
                 .buckarooIdeal,
                 .buckarooGiropay,
                 .buckarooSofort,
+                .coinbase,
                 .hoolah,
                 .mollieIdeal,
                 .payNLGiropay,
