@@ -36,6 +36,7 @@ public enum PaymentMethodConfigType: Codable, Equatable {
     case payNLPayconiq
     case paymentCard
     case payPal
+    case twoCtwoP
     case xfers
     case other(rawValue: String)
     
@@ -106,6 +107,8 @@ public enum PaymentMethodConfigType: Codable, Equatable {
             self = .paymentCard
         case "PAYPAL":
             self = .payPal
+        case "TWOC2P":
+            self = .twoCtwoP
         case "XFERS_PAYNOW":
             self = .xfers
         default:
@@ -179,6 +182,8 @@ public enum PaymentMethodConfigType: Codable, Equatable {
             return "PAYMENT_CARD"
         case .payPal:
             return "PAYPAL"
+        case .twoCtwoP:
+            return "TWOC2P"
         case .xfers:
             return "XFERS_PAYNOW"
         case .other(let rawValue):
@@ -214,6 +219,7 @@ public enum PaymentMethodConfigType: Codable, Equatable {
                 .payNLGiropay,
                 .payNLIdeal,
                 .payNLPayconiq,
+                .twoCtwoP,
                 .xfers:
             guard let flow = Primer.shared.flow else { return false }
             return !flow.internalSessionFlow.vaulted
