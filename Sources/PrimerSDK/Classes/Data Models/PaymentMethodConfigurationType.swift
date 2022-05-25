@@ -58,7 +58,7 @@ public enum PaymentMethodConfigType: Codable, Equatable {
             self = .adyenMobilePay
         case "ADYEN_PAYTRAIL":
             self = .adyenPayTrail
-        case "ADYEN_SOFORT":
+        case "PRIMER_TEST_KLARNA":
             self = .adyenSofort
         case "ADYEN_TRUSTLY":
             self = .adyenTrustly
@@ -132,7 +132,7 @@ public enum PaymentMethodConfigType: Codable, Equatable {
         case .adyenPayTrail:
             return "ADYEN_PAYTRAIL"
         case .adyenSofort:
-            return "ADYEN_SOFORT"
+            return "PRIMER_TEST_KLARNA"
         case .adyenTrustly:
             return "ADYEN_TRUSTLY"
         case .adyenTwint:
