@@ -25,14 +25,14 @@ public class PrimerHeadlessUniversalCheckout {
             PrimerHeadlessUniversalCheckout.current.delegate = delegate
         }
         
-        guard PrimerHeadlessUniversalCheckout.current.delegate != nil else {
-            let err = PrimerError.missingPrimerCheckoutComponentsDelegate(userInfo: ["file": #file, "class": "\(Self.self)", "function": #function, "line": "\(#line)"])
-            ErrorHandler.handle(error: err)
-            DispatchQueue.main.async {
-                completion(nil, err)
-            }
-            return
-        }
+//        guard PrimerHeadlessUniversalCheckout.current.delegate != nil else {
+//            let err = PrimerError.missingPrimerCheckoutComponentsDelegate(userInfo: ["file": #file, "class": "\(Self.self)", "function": #function, "line": "\(#line)"])
+//            ErrorHandler.handle(error: err)
+//            DispatchQueue.main.async {
+//                completion(nil, err)
+//            }
+//            return
+//        }
                         
         if let settings = settings {
             DependencyContainer.register(settings as PrimerSettingsProtocol)
